@@ -1,135 +1,268 @@
-import marinersLogo from './seattle-mariners.svg';
-import './App.css';
 import { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
-  const [nextGame, setNextGame] = useState(null);
-  const [countdown, setCountdown] = useState(null);
-
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isHoveringLink, setIsHoveringLink] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Handle mouse movement for custom cursor
   useEffect(() => {
-    // This would normally fetch from MLB API
-    // Mocked data for example
-    const gameInfo = {
-      opponent: "Oakland Athletics",
-      date: "March 27, 2025",
-      time: "7:10 PM PT",
-      location: "T-Mobile Park"
+    const handleMouseMove = (e) => {
+      setCursorPosition({ x: e.clientX, y: e.clientY });
     };
     
-    setNextGame(gameInfo);
+    window.addEventListener('mousemove', handleMouseMove);
     
-    // Create a Date object for the game time
-    // Parse date string properly to avoid timezone issues
-    const parseGameDate = () => {
-      // Parse date components
-      const dateParts = gameInfo.date.split(" ");
-      const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].indexOf(dateParts[0]);
-      const day = parseInt(dateParts[1].replace(",", ""));
-      const year = parseInt(dateParts[2]);
-      
-      // Parse time components
-      const timeParts = gameInfo.time.split(" ");
-      const timeValue = timeParts[0].split(":");
-      const hours = parseInt(timeValue[0]);
-      const minutes = parseInt(timeValue[1]);
-      const isPM = timeParts[1] === "PM";
-      
-      // Create date object (adjust for PM)
-      const date = new Date(year, month, day);
-      date.setHours(isPM && hours < 12 ? hours + 12 : hours);
-      date.setMinutes(minutes);
-      date.setSeconds(0);
-      
-      return date;
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
     };
-    
-    const gameDate = parseGameDate();
-    
-    // Set up the countdown timer
-    const timer = setInterval(() => {
-      const now = new Date();
-      const difference = gameDate - now;
-      
-      // If the game date is in the past, clear the interval
-      if (difference < 0) {
-        clearInterval(timer);
-        setCountdown("Game has already started!");
-        return;
-      }
-      
-      // Calculate time units
-      const weeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
-      const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      
-      // Format the countdown
-      setCountdown({
-        weeks,
-        days,
-        hours,
-        minutes,
-        seconds
-      });
-    }, 1000);
-    
-    // Clean up the interval on component unmount
-    return () => clearInterval(timer);
   }, []);
 
+  // Projects data
+  const projects = [
+    {
+      id: 1,
+      title: 'Web Design Portfolio',
+      category: 'Web Development',
+      year: '2024',
+      image: 'https://via.placeholder.com/600x400/f5f5f5/333333',
+      link: '#'
+    },
+    {
+      id: 2,
+      title: 'E-Commerce Platform',
+      category: 'Web Development',
+      year: '2023',
+      image: 'https://via.placeholder.com/600x400/f5f5f5/333333',
+      link: '#'
+    },
+    {
+      id: 3,
+      title: 'Mobile App Design',
+      category: 'UI/UX',
+      year: '2023',
+      image: 'https://via.placeholder.com/600x400/f5f5f5/333333',
+      link: '#'
+    }
+  ];
+
+  // Skills data
+  const skills = [
+    'HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 
+    'TypeScript', 'Firebase', 'UI/UX Design', 'Responsive Design'
+  ];
+
   return (
-    <div className="App" style={{ backgroundColor: '#0C2C56' }}>
-      <header className="App-header" style={{ backgroundColor: '#005C5C' }}>
-        <img 
-          src={marinersLogo} 
-          className="App-logo" 
-          alt="Seattle Mariners logo"
-          style={{ height: '200px' }}
-        />
-        <h1 style={{ color: '#C4CED4' }}>
-          Welcome to John's Mariners Fan Portfolio!
-        </h1>
-        <p style={{ color: '#C4CED4' }}>
-          Passionate Seattle Mariners Fan & Web Developer
-        </p>
-        {nextGame && (
-          <div style={{ 
-            backgroundColor: '#0C2C56', 
-            padding: '20px', 
-            borderRadius: '10px',
-            margin: '20px'
-          }}>
-            <h2 style={{ color: '#C4CED4' }}>Next Game:</h2>
-            <p style={{ color: '#C4CED4' }}>
-              {nextGame.opponent}<br/>
-              {typeof countdown === 'string' ? countdown : (
-                countdown ? (
-                  <>
-                    <span style={{ fontWeight: 'bold' }}>Countdown: </span>
-                    {countdown.weeks > 0 && `${countdown.weeks} week${countdown.weeks !== 1 ? 's' : ''}, `}
-                    {countdown.days > 0 && `${countdown.days} day${countdown.days !== 1 ? 's' : ''}, `}
-                    {countdown.hours.toString().padStart(2, '0')}:
-                    {countdown.minutes.toString().padStart(2, '0')}:
-                    {countdown.seconds.toString().padStart(2, '0')}
-                  </>
-                ) : "Calculating..."
-              )}<br/>
-              {nextGame.date} at {nextGame.time}<br/>
-              {nextGame.location}
+    <div className="portfolio">
+      {/* Custom cursor */}
+      <div 
+        className={`cursor ${isHoveringLink ? 'cursor-grow' : ''}`}
+        style={{ 
+          left: `${cursorPosition.x}px`, 
+          top: `${cursorPosition.y}px` 
+        }}
+      />
+      
+      {/* Navigation */}
+      <nav className="nav">
+        <div className="nav-logo">John Moses</div>
+        <div 
+          className={`nav-toggle ${menuOpen ? 'open' : ''}`} 
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span></span>
+          <span></span>
+        </div>
+        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
+          <li>
+            <a 
+              href="#home" 
+              className={activeSection === 'home' ? 'active' : ''}
+              onClick={() => {
+                setActiveSection('home');
+                setMenuOpen(false);
+              }}
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#work" 
+              className={activeSection === 'work' ? 'active' : ''}
+              onClick={() => {
+                setActiveSection('work');
+                setMenuOpen(false);
+              }}
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              Work
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#about" 
+              className={activeSection === 'about' ? 'active' : ''}
+              onClick={() => {
+                setActiveSection('about');
+                setMenuOpen(false);
+              }}
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a 
+              href="#contact" 
+              className={activeSection === 'contact' ? 'active' : ''}
+              onClick={() => {
+                setActiveSection('contact');
+                setMenuOpen(false);
+              }}
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      {/* Hero section */}
+      <section id="home" className="hero">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            <span className="hero-title-line">Creative</span>
+            <span className="hero-title-line">Developer &</span>
+            <span className="hero-title-line">Designer</span>
+          </h1>
+          <p className="hero-description">
+            Crafting beautiful digital experiences through clean code and thoughtful design.
+          </p>
+        </div>
+      </section>
+      
+      {/* Work section */}
+      <section id="work" className="work">
+        <div className="section-header">
+          <h2>Selected Work</h2>
+          <p>Recent projects I've been working on</p>
+        </div>
+        <div className="projects-grid">
+          {projects.map(project => (
+            <div 
+              key={project.id} 
+              className="project-card"
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              <div className="project-image">
+                <img src={project.image} alt={project.title} />
+              </div>
+              <div className="project-info">
+                <h3 className="project-title">{project.title}</h3>
+                <div className="project-meta">
+                  <span className="project-category">{project.category}</span>
+                  <span className="project-year">{project.year}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      
+      {/* About section */}
+      <section id="about" className="about">
+        <div className="section-header">
+          <h2>About Me</h2>
+        </div>
+        <div className="about-content">
+          <div className="about-text">
+            <p>
+              I'm a web developer and designer based in Seattle, with a passion for creating clean, 
+              functional, and visually appealing digital experiences. With expertise in front-end development
+              and UI/UX design, I strive to build websites that not only look great but also provide
+              exceptional user experiences.
+            </p>
+            <p>
+              When I'm not coding, you can find me cheering for the Seattle Mariners, exploring the 
+              Pacific Northwest, or experimenting with new technologies.
             </p>
           </div>
-        )}
-        <a
-          className="App-link"
-          href="https://www.mlb.com/mariners"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: '#005C5C', backgroundColor: '#C4CED4', padding: '10px', borderRadius: '5px' }}
-        >
-          Visit Official Mariners Site
-        </a>
-      </header>
+          <div className="skills">
+            <h3>Skills</h3>
+            <div className="skills-grid">
+              {skills.map((skill, index) => (
+                <span key={index} className="skill-tag">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Contact section */}
+      <section id="contact" className="contact">
+        <div className="section-header">
+          <h2>Get In Touch</h2>
+          <p>Have a project in mind? Let's work together.</p>
+        </div>
+        <div className="contact-content">
+          <a 
+            href="mailto:hello@johnmoses.com" 
+            className="contact-link"
+            onMouseEnter={() => setIsHoveringLink(true)}
+            onMouseLeave={() => setIsHoveringLink(false)}
+          >
+            hello@johnmoses.com
+          </a>
+          <div className="social-links">
+            <a 
+              href="https://github.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link"
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              GitHub
+            </a>
+            <a 
+              href="https://linkedin.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link"
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              LinkedIn
+            </a>
+            <a 
+              href="https://twitter.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="social-link"
+              onMouseEnter={() => setIsHoveringLink(true)}
+              onMouseLeave={() => setIsHoveringLink(false)}
+            >
+              Twitter
+            </a>
+          </div>
+        </div>
+      </section>
+      
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <p>© 2024 John Moses. All Rights Reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
