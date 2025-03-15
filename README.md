@@ -56,7 +56,7 @@ Project: Personal Portfolio
   * [Features](#dart-features)
   * [Color Reference](#art-color-reference)
   * [Environment Variables](#key-environment-variables)
-- [Getting Started](#toolbox-getting-started)
+- [Getting Started](#dizzy-getting-started)
   * [Prerequisites](#bangbang-prerequisites)
   * [Installation](#gear-installation)
   * [Running Tests](#test_tube-running-tests)
@@ -150,7 +150,7 @@ To run this project, you will need to add the following environment variables to
 `ANOTHER_API_KEY`
 
 <!-- Getting Started -->
-## 	:toolbox: Getting Started
+## 	:dizzy: Getting Started
 
 <!-- Prerequisites -->
 ### :bangbang: Prerequisites
