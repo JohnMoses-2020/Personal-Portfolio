@@ -68,7 +68,7 @@ Project: Personal Portfolio
   * [Code of Conduct](#scroll-code-of-conduct)
 - [FAQ](#grey_question-faq)
 - [License](#warning-license)
-- [Contact](#handshake-contact)
+- [Contact](#calling-contact)
 - [Acknowledgements](#gem-acknowledgements)
 
   
@@ -271,7 +271,7 @@ Distributed under the no License. See LICENSE.txt for more information.
 
 
 <!-- Contact -->
-## :handshake: Contact
+## :calling: Contact
 
 John Moses - [@twitter_handle](https://twitter.com/johnm4949) - johnmoses4949@gmail.com
 
