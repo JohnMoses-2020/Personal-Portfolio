@@ -1,24 +1,85 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [isHoveringLink, setIsHoveringLink] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredWord, setHoveredWord] = useState(null);
+  const [isHoveringDescription, setIsHoveringDescription] = useState(false);
+  const [typedTextIndex, setTypedTextIndex] = useState(0);
+  const [vhsEffect, setVhsEffect] = useState(false);
+  const heroRef = useRef(null);
+  const cursorRef = useRef(null);
   
-  // Handle mouse movement for custom cursor
+  // Load Google Fonts
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
+    document.head.appendChild(link);
     
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      document.head.removeChild(link);
     };
   }, []);
+  
+  // Completely rewritten cursor effect to ensure it works correctly
+  useEffect(() => {
+    // Create a cursor element
+    const cursor = document.createElement('div');
+    cursor.classList.add('cursor-dot');
+    document.body.appendChild(cursor);
+    
+    // Function to update cursor position - use clientX and clientY directly
+    const updateCursorPosition = (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      // Direct style assignment for more reliable positioning
+      cursor.style.left = x + 'px';
+      cursor.style.top = y + 'px';
+    };
+    
+    // Add event listener to the entire document
+    document.addEventListener('mousemove', updateCursorPosition);
+    
+    // Store reference to the cursor element
+    cursorRef.current = cursor;
+    
+    // Clean up on component unmount
+    return () => {
+      document.removeEventListener('mousemove', updateCursorPosition);
+      if (cursor && cursor.parentNode) {
+        document.body.removeChild(cursor);
+      }
+    };
+  }, []);
+
+  // Word data for animation - already visible without hover
+  const titleWords = [
+    { id: 'word1', text: 'Creative', line: 1 },
+    { id: 'word2', text: 'Developer', line: 2 },
+    { id: 'word3', text: '&', line: 2 },
+    { id: 'word4', text: 'Designer', line: 3 }
+  ];
+  
+  const descriptionText = "Crafting beautiful digital experiences through clean code and thoughtful design.";
+  const descriptionWords = descriptionText.split(' ');
+
+  // Handle typing effect for description
+  useEffect(() => {
+    if (isHoveringDescription) {
+      const timer = setTimeout(() => {
+        if (typedTextIndex < descriptionWords.length) {
+          setTypedTextIndex(typedTextIndex + 1);
+        }
+      }, 150);
+
+      return () => clearTimeout(timer);
+    } else {
+      setTypedTextIndex(0);
+    }
+  }, [isHoveringDescription, typedTextIndex, descriptionWords.length]);
 
   // Projects data
   const projects = [
@@ -27,7 +88,7 @@ function App() {
       title: 'Web Design Portfolio',
       category: 'Web Development',
       year: '2024',
-      image: 'https://via.placeholder.com/600x400/f5f5f5/333333',
+      image: '/assets/web-design.jpeg',
       link: '#'
     },
     {
@@ -35,7 +96,7 @@ function App() {
       title: 'E-Commerce Platform',
       category: 'Web Development',
       year: '2023',
-      image: 'https://via.placeholder.com/600x400/f5f5f5/333333',
+      image: '/assets/e-commerce.jpeg',
       link: '#'
     },
     {
@@ -43,7 +104,7 @@ function App() {
       title: 'Mobile App Design',
       category: 'UI/UX',
       year: '2023',
-      image: 'https://via.placeholder.com/600x400/f5f5f5/333333',
+      image: '/assets/mobile-app.jpeg.png',
       link: '#'
     }
   ];
@@ -55,19 +116,52 @@ function App() {
   ];
 
   return (
-    <div className="portfolio">
-      {/* Custom cursor */}
-      <div 
-        className={`cursor ${isHoveringLink ? 'cursor-grow' : ''}`}
-        style={{ 
-          left: `${cursorPosition.x}px`, 
-          top: `${cursorPosition.y}px` 
-        }}
-      />
+    <div className={`portfolio ${vhsEffect ? 'vhs-effect' : ''}`}>
+      {/* VHS Effect Overlays */}
+      {vhsEffect && (
+        <>
+          <div className="vhs-overlay"></div>
+          <div className="scanlines"></div>
+        </>
+      )}
+      
+      {/* VHS Effect Toggle Button */}
+      <button 
+        className="vhs-toggle" 
+        onClick={() => setVhsEffect(!vhsEffect)}
+      >
+        {vhsEffect ? 'VHS OFF' : 'VHS ON'}
+      </button>
+      
+      {/* Retro Sun */}
+      <div className="sun-container">
+        <div className="sun"></div>
+      </div>
+      
+      {/* Retro Icons */}
+      <div className="retro-icons">
+        <div className="cassette-icon"></div>
+        <div className="computer-icon"></div>
+      </div>
+      
+      {/* Vintage Computer */}
+      <div className="vintage-computer">
+        <div className="computer-screen">
+          <div className="screen-content">HELLO WORLD</div>
+        </div>
+      </div>
+      
+      {/* Cassette Tape */}
+      <div className="cassette-tape">
+        <div className="cassette-label">PORTFOLIO.WAV</div>
+      </div>
       
       {/* Navigation */}
       <nav className="nav">
-        <div className="nav-logo">John Moses</div>
+        <div className="nav-logo">
+          <span className="boombox-icon"></span>
+          John Moses
+        </div>
         <div 
           className={`nav-toggle ${menuOpen ? 'open' : ''}`} 
           onClick={() => setMenuOpen(!menuOpen)}
@@ -84,8 +178,6 @@ function App() {
                 setActiveSection('home');
                 setMenuOpen(false);
               }}
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               Home
             </a>
@@ -98,8 +190,6 @@ function App() {
                 setActiveSection('work');
                 setMenuOpen(false);
               }}
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               Work
             </a>
@@ -112,8 +202,6 @@ function App() {
                 setActiveSection('about');
                 setMenuOpen(false);
               }}
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               About
             </a>
@@ -126,8 +214,6 @@ function App() {
                 setActiveSection('contact');
                 setMenuOpen(false);
               }}
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               Contact
             </a>
@@ -136,15 +222,70 @@ function App() {
       </nav>
       
       {/* Hero section */}
-      <section id="home" className="hero">
+      <section 
+        id="home" 
+        className="hero"
+        ref={heroRef}
+      >
         <div className="hero-content">
           <h1 className="hero-title">
-            <span className="hero-title-line">Creative</span>
-            <span className="hero-title-line">Developer &</span>
-            <span className="hero-title-line">Designer</span>
+            {/* Title words with line breaks between lines */}
+            <div className="hero-title-line">
+              {titleWords
+                .filter(word => word.line === 1)
+                .map(word => (
+                  <span 
+                    key={word.id}
+                    className={`hero-word ${hoveredWord === word.id ? 'word-hover' : ''}`}
+                    onMouseEnter={() => setHoveredWord(word.id)}
+                    onMouseLeave={() => setHoveredWord(null)}
+                  >
+                    {word.text}
+                  </span>
+                ))}
+            </div>
+            <div className="hero-title-line">
+              {titleWords
+                .filter(word => word.line === 2)
+                .map(word => (
+                  <span 
+                    key={word.id}
+                    className={`hero-word ${hoveredWord === word.id ? 'word-hover' : ''}`}
+                    onMouseEnter={() => setHoveredWord(word.id)}
+                    onMouseLeave={() => setHoveredWord(null)}
+                  >
+                    {word.text}{' '}
+                  </span>
+                ))}
+            </div>
+            <div className="hero-title-line">
+              {titleWords
+                .filter(word => word.line === 3)
+                .map(word => (
+                  <span 
+                    key={word.id}
+                    className={`hero-word ${hoveredWord === word.id ? 'word-hover' : ''}`}
+                    onMouseEnter={() => setHoveredWord(word.id)}
+                    onMouseLeave={() => setHoveredWord(null)}
+                  >
+                    {word.text}
+                  </span>
+                ))}
+            </div>
           </h1>
-          <p className="hero-description">
-            Crafting beautiful digital experiences through clean code and thoughtful design.
+          <p 
+            className={`hero-description ${isHoveringDescription ? 'typing' : ''}`}
+            onMouseEnter={() => setIsHoveringDescription(true)}
+            onMouseLeave={() => setIsHoveringDescription(false)}
+          >
+            {isHoveringDescription ? (
+              <span className="typing-text">
+                {descriptionWords.slice(0, typedTextIndex + 1).join(' ')}
+                <span className="typing-cursor">|</span>
+              </span>
+            ) : (
+              descriptionText
+            )}
           </p>
         </div>
       </section>
@@ -160,8 +301,6 @@ function App() {
             <div 
               key={project.id} 
               className="project-card"
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               <div className="project-image">
                 <img src={project.image} alt={project.title} />
@@ -186,7 +325,7 @@ function App() {
         <div className="about-content">
           <div className="about-text">
             <p>
-              I'm a web developer and designer based in Seattle, with a passion for creating clean, 
+              I'm a web developer and designer based in Seattle, Washington with a passion for creating clean, 
               functional, and visually appealing digital experiences. With expertise in front-end development
               and UI/UX design, I strive to build websites that not only look great but also provide
               exceptional user experiences.
@@ -217,8 +356,6 @@ function App() {
           <a 
             href="mailto:hello@johnmoses.com" 
             className="contact-link"
-            onMouseEnter={() => setIsHoveringLink(true)}
-            onMouseLeave={() => setIsHoveringLink(false)}
           >
             hello@johnmoses.com
           </a>
@@ -228,8 +365,6 @@ function App() {
               target="_blank" 
               rel="noopener noreferrer"
               className="social-link"
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               GitHub
             </a>
@@ -238,8 +373,6 @@ function App() {
               target="_blank" 
               rel="noopener noreferrer"
               className="social-link"
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               LinkedIn
             </a>
@@ -248,8 +381,6 @@ function App() {
               target="_blank" 
               rel="noopener noreferrer"
               className="social-link"
-              onMouseEnter={() => setIsHoveringLink(true)}
-              onMouseLeave={() => setIsHoveringLink(false)}
             >
               Twitter
             </a>
@@ -259,8 +390,13 @@ function App() {
       
       {/* Footer */}
       <footer className="footer">
-        <div className="footer-content">
-          <p>© 2024 John Moses. All Rights Reserved.</p>
+        <div className="copyright">
+          &copy; {new Date().getFullYear()} <span className="boombox-icon"></span> My Portfolio
+        </div>
+        <div className="retro-stamps">
+          <div className="stamp stamp-a">VHS</div>
+          <div className="stamp stamp-b">STEREO</div>
+          <div className="stamp stamp-c">HI-FI</div>
         </div>
       </footer>
     </div>
