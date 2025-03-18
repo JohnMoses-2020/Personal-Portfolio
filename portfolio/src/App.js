@@ -13,9 +13,13 @@ function App() {
   
   // Load Google Fonts
   useEffect(() => {
+    // Set the document title for the browser tab
+    document.title = "Welcome to John's Portfolio";
+    
+    // Add Google Fonts
     const link = document.createElement('link');
-    link.rel = 'stylesheet';
     link.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
+    link.rel = 'stylesheet';
     document.head.appendChild(link);
     
     return () => {
@@ -335,12 +339,26 @@ function App() {
               Pacific Northwest, or experimenting with new technologies.
             </p>
           </div>
-          <div className="skills">
-            <h3>Skills</h3>
-            <div className="skills-grid">
-              {skills.map((skill, index) => (
-                <span key={index} className="skill-tag">{skill}</span>
-              ))}
+          <div className="skills-column">
+            <div className="pixel-avatar">
+              <img 
+                src="/assets/pixel-avatar.png"
+                alt="8-bit pixel version of John Moses"
+                onError={(e) => {
+                  console.error('Error loading image:', e);
+                  e.target.onerror = null; // Prevent infinite loop
+                  e.target.style.display = 'none';
+                }}
+                style={{ imageRendering: 'pixelated' }}
+              />
+            </div>
+            <div className="skills">
+              <h3>Skills</h3>
+              <div className="skills-grid">
+                {skills.map((skill, index) => (
+                  <span key={index} className="skill-tag">{skill}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
