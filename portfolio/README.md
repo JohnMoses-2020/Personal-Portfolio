@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# The Long Table — homepage
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Version 1 of the portfolio homepage, built faithfully to the canonical design
+foundation in [`../docs/design/`](../docs/design/). One page, seven rooms:
 
-## Available Scripts
+```
+01 Arrival        The Near Edge
+02 Discovery      The Instrument Bay
+03 Understanding  One Day, Many Systems
+04 Evidence       Objects on the Bench
+05 Judgment       The Decision Ledger
+06 Person         The Maker's Edge
+07 Invitation     The Far End
+```
 
-In the project directory, you can run:
+## Run
 
-### `npm start`
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build → dist/
+npm run preview  # serve the production build
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Desktop-first by design; responsive work is a later phase.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Stack
 
-### `npm test`
+Vite + React 19, plain CSS with design tokens (`src/styles/tokens.css`),
+hand-rolled motion on the canonical timing tiers, SVG instrument. Fonts:
+Geist Sans, IBM Plex Mono, Newsreader (the doc-sanctioned accessible stack),
+self-hosted via Fontsource.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Replacing provisional content
 
-### `npm run build`
+Nothing on this page pretends. Content awaiting real material carries a
+visible amber stamp and a `provisional: true` flag in the content layer —
+swapping in the truth is a content edit, never a component change:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| File | Holds |
+|---|---|
+| `src/content/site.js` | Copy, nav, email, references, status |
+| `src/content/ecosystem.js` | Agents, regions, maturity states, map geometry |
+| `src/content/scenarios.js` | The four authored day scenarios |
+| `src/content/evidence.js` | Evidence assemblies (artifacts, decisions, provenance) |
+| `src/content/decisions.js` | Decision-ledger entries |
+| `src/content/person.js` | Maker's Edge artifacts, notebook, maker photo |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The source-material checklist lives in
+[`../docs/design/07-open-questions.md`](../docs/design/07-open-questions.md).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Visual verification
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+`node scripts/shots.mjs` walks every room and interaction state with headless
+Chromium (requires the dev server on port 5183) and writes screenshots to
+`/tmp/portfolio-shots`.

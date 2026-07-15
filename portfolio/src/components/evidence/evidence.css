@@ -1,0 +1,199 @@
+/* ---- 04 Evidence — Objects on the Bench ---- */
+
+.evidence-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(96px, 12vh, 150px);
+  margin-top: var(--sp-9);
+}
+
+.assembly {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(280px, 5fr);
+  gap: var(--sp-7);
+  align-items: start;
+}
+
+.assembly--flip .assembly__artifact {
+  order: 2;
+}
+
+/* ---- Primary artifact: large, unobstructed, never covered by copy ---- */
+.assembly__artifact {
+  padding: 0;
+  overflow: hidden;
+}
+
+.assembly__artifact-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--aluminum-line);
+}
+
+.assembly__kind {
+  flex: none;
+}
+
+.assembly__title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.assembly__media {
+  padding: 20px;
+}
+
+/* ---- Reserved bench position: honest, composed, awaiting the real object ---- */
+.reserved-artifact {
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  padding: 48px 40px;
+  background:
+    repeating-linear-gradient(-45deg, transparent 0 14px, color-mix(in srgb, var(--aluminum-line) 30%, transparent) 14px 15px);
+}
+
+.reserved-artifact--trace {
+  min-height: 220px;
+}
+
+.reserved-artifact__corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--aluminum-strong);
+}
+
+.reserved-artifact__corner:nth-child(1) { top: 12px; left: 12px; border-top-width: 1px; border-left-width: 1px; }
+.reserved-artifact__corner:nth-child(2) { top: 12px; right: 12px; border-top-width: 1px; border-right-width: 1px; }
+.reserved-artifact__corner:nth-child(3) { bottom: 12px; left: 12px; border-bottom-width: 1px; border-left-width: 1px; }
+.reserved-artifact__corner:nth-child(4) { bottom: 12px; right: 12px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.reserved-artifact__awaiting {
+  max-width: 40ch;
+  color: var(--ink-muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+/* ---- Annotation column ---- */
+.assembly__notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.assembly__note-block .t-engraved {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.assembly__decision {
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 450;
+}
+
+.assembly__supporting {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.assembly__supporting .provisional-stamp {
+  margin-top: 8px;
+}
+
+/* ---- Provenance strip ---- */
+.provenance {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+  background: var(--bench-recessed);
+}
+
+.provenance__text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Depth lens ---- */
+.depth-lens__control {
+  display: inline-flex;
+  border: 1px solid var(--aluminum-strong);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.depth-lens__control button {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 13px;
+  color: var(--ink-muted);
+  border-right: 1px solid var(--aluminum-strong);
+  transition:
+    background-color var(--t-contact) var(--ease-decisive),
+    color var(--t-contact) var(--ease-decisive);
+}
+
+.depth-lens__control button:last-child {
+  border-right: none;
+}
+
+.depth-lens__control button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--bench-raised);
+}
+
+.depth-lens__text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  animation: depth-swap var(--t-interface) var(--ease-soft);
+}
+
+@keyframes depth-swap {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-lens__text {
+    animation: none;
+  }
+}
+
+/* ---- The system sketch (a real artifact) ---- */
+.system-sketch text {
+  font-family: var(--font-mono);
+}
+
+/* ---- transition annotation into the ledger ---- */
+.evidence-transition {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: var(--sp-9);
+  padding-left: 0;
+}

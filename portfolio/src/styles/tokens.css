@@ -1,0 +1,77 @@
+/*
+ * The Luminous Workshop — design tokens.
+ *
+ * Two surface temperatures: a warm drafting-paper bench and a cool smoked-glass
+ * instrument. Cobalt marks intelligence in motion; workshop amber marks human
+ * judgment. Neither is ever decorative. (docs/design/03-creative-direction.md)
+ */
+:root {
+  color-scheme: light;
+
+  /* ---- Bench (warm reading surface) ---- */
+  --bench: #f2f1e9;
+  --bench-raised: #f8f7f2;
+  --bench-recessed: #eae8dd;
+  --ink: #1e1c19;
+  --ink-soft: #44413b;
+  --ink-muted: #6b675d;
+
+  /* ---- Aluminum (frames, rules, engraved labels) ---- */
+  --aluminum-line: #cbc9bd;
+  --aluminum-strong: #aeab9f;
+  --engraved: #6e6b62;
+
+  /* ---- Instrument (bounded dark plane) ---- */
+  --instrument: #17191d;
+  --instrument-well: #0f1114;
+  --instrument-line: #2c3138;
+  --instrument-line-strong: #3d434c;
+  --fog: #c3c9d2;
+  --fog-dim: #7e8691;
+  --instrument-text: #edf0f4;
+
+  /* ---- Signal (events, never atmosphere) ---- */
+  --cobalt: #2946b8;
+  --cobalt-deep: #1d338f;
+  --cobalt-signal: #5b7cfa;
+  --amber-ink: #96691e;
+  --amber-signal: #d9a554;
+
+  /* ---- Type ---- */
+  --font-sans: 'Geist Variable', 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+
+  /* ---- Spacing (8px base, 4px sub-grid) ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --sp-10: 128px;
+  --sp-11: 160px;
+  --sp-12: 192px;
+  --sp-13: 256px;
+
+  /* ---- Layout: the frame and the datum ---- */
+  --frame-max: 1264px;
+  --frame-pad: clamp(32px, 5vw, 72px);
+  --datum-gutter: 72px;
+  --rail-height: 60px;
+  /* x-position of the ledger line, measured from the viewport edge */
+  --line-x: calc(max(0px, (100vw - var(--frame-max) - 2 * var(--frame-pad)) / 2) + var(--frame-pad));
+
+  /* ---- Motion tiers (docs/design/06-design-principles.md) ---- */
+  --t-contact: 120ms;
+  --t-interface: 220ms;
+  --t-relationship: 400ms;
+  --t-narrative: 900ms;
+  /* fast departure, firm landing — no bounce */
+  --ease-decisive: cubic-bezier(0.3, 0, 0.2, 1);
+  /* objects arrive softly, as if placed by hand */
+  --ease-soft: cubic-bezier(0.16, 0.84, 0.28, 1);
+}

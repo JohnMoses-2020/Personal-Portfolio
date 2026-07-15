@@ -1,0 +1,10 @@
+/* ---- Room rhythm: distinct work areas, not stripes ---- */
+main > .room:not(.arrival):not(.silence):not(.farend) {
+  padding-top: clamp(96px, 13vh, 152px);
+  padding-bottom: clamp(56px, 8vh, 96px);
+}
+
+/* The arrival mark sits below the fixed rail */
+.arrival .room-mark {
+  top: calc(var(--rail-height) + 18px);
+}

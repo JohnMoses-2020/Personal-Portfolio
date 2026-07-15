@@ -1,0 +1,163 @@
+/* ---- Workplate: a calm rectangular field with machined corners ---- */
+.workplate {
+  position: relative;
+  background: var(--bench-raised);
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+}
+
+.workplate--recessed {
+  background: var(--bench-recessed);
+}
+
+/* ---- Calibration notch: the mature descendant of the pixel aesthetic ---- */
+.notch {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--aluminum-strong);
+  flex: none;
+}
+
+.notch--cobalt {
+  background: var(--cobalt);
+}
+
+.notch--amber {
+  background: var(--amber-ink);
+}
+
+/* ---- Engraved label with optional leading notch ---- */
+/* The notch spacing is a margin (not flex gap) so it survives display
+   overrides in block contexts. */
+.engraved-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.engraved-label .notch {
+  margin-right: 9px;
+}
+
+/* ---- Provisional stamp: honest about what is not yet real ---- */
+.provisional-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber-ink);
+  border: 1px solid color-mix(in srgb, var(--amber-ink) 38%, transparent);
+  border-radius: 2px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+
+/* ---- Quiet button: paper plate, ink border, cobalt notch on intent ---- */
+.quiet-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 22px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background: var(--bench-raised);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    background-color var(--t-contact) var(--ease-decisive),
+    color var(--t-contact) var(--ease-decisive);
+}
+
+.quiet-button .notch {
+  transition: background-color var(--t-contact) var(--ease-decisive);
+}
+
+.quiet-button:hover {
+  background: var(--ink);
+  color: var(--bench-raised);
+}
+
+.quiet-button:hover .notch {
+  background: var(--cobalt-signal);
+}
+
+.quiet-button:active {
+  transform: translateY(1px);
+}
+
+/* ---- Text link with leading notch ---- */
+.notch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--aluminum-strong);
+  padding-bottom: 3px;
+  transition: border-color var(--t-contact) var(--ease-decisive);
+}
+
+.notch-link .notch {
+  transition: background-color var(--t-contact) var(--ease-decisive);
+}
+
+.notch-link:hover {
+  border-color: var(--ink);
+}
+
+.notch-link:hover .notch {
+  background: var(--cobalt);
+}
+
+/* ---- Checksum ---- */
+.checksum {
+  display: block;
+}
+
+.checksum rect {
+  fill: var(--ink);
+}
+
+.checksum--cobalt rect {
+  fill: var(--cobalt);
+}
+
+/* ---- Room registration mark on the ledger line ---- */
+.room-mark {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(-3px);
+}
+
+/* ---- Soft placement on approach ---- */
+.placed {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 360ms var(--ease-soft),
+    transform 360ms var(--ease-soft);
+}
+
+.placed.is-placed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .placed {
+    transform: none;
+    transition: opacity 200ms linear;
+  }
+}

@@ -1,0 +1,11 @@
+.silence {
+  padding-top: clamp(140px, 24vh, 260px);
+  padding-bottom: clamp(140px, 24vh, 260px);
+  display: flex;
+}
+
+.silence__sentence {
+  max-width: 34ch;
+  margin-left: clamp(0px, 9vw, 152px);
+  text-wrap: balance;
+}

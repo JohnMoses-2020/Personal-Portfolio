@@ -1,0 +1,103 @@
+/* ---- The datum rail: ordinary, reliable orientation ---- */
+.datum-rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--rail-height);
+  background: color-mix(in srgb, var(--bench) 96%, transparent);
+  border-bottom: 1px solid var(--aluminum-line);
+}
+
+.datum-rail__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.datum-rail__name {
+  text-decoration: none;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.datum-rail__name .t-engraved {
+  color: var(--ink);
+}
+
+.datum-rail__nav {
+  display: flex;
+  gap: 40px;
+}
+
+.datum-rail__item {
+  position: relative;
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+.datum-rail__item .t-engraved {
+  transition: color var(--t-contact) var(--ease-decisive);
+}
+
+.datum-rail__item:hover .t-engraved {
+  color: var(--ink);
+}
+
+.datum-rail__item::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 6px;
+  height: 3px;
+  transform: translateX(-50%);
+  background: var(--cobalt);
+  opacity: 0;
+  transition: opacity var(--t-contact) var(--ease-decisive);
+}
+
+.datum-rail__item[aria-current='true'] .t-engraved {
+  color: var(--ink);
+}
+
+.datum-rail__item[aria-current='true']::after {
+  opacity: 1;
+}
+
+/* ---- The ledger line: the table's long edge, walked beside ---- */
+/* Positioned inside the frame so it lands exactly at --line-x in the viewport. */
+.ledger-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--frame-pad);
+  width: 1px;
+  background: var(--aluminum-line);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The cobalt context trace: a stationary registration tick at reading
+   height; the bench moves beneath it as the visitor walks. */
+.ledger-trace {
+  position: fixed;
+  top: 42vh;
+  left: var(--line-x);
+  width: 3px;
+  height: 26px;
+  margin-left: -1px;
+  background: var(--cobalt);
+  opacity: 0;
+  transition: opacity var(--t-relationship) var(--ease-soft);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ledger-trace.is-visible {
+  opacity: 1;
+}

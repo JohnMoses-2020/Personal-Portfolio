@@ -1,0 +1,79 @@
+/*
+ * Sentence case carries confidence. Uppercase belongs to tiny engraved labels.
+ * Monospace is metadata — the sound of the instrument, never John's voice.
+ */
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.t-display {
+  font-size: clamp(46px, 4.7vw, 66px);
+  line-height: 1.06;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.t-claim {
+  font-size: clamp(28px, 2.7vw, 36px);
+  line-height: 1.18;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.t-lede {
+  font-size: 20px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.t-body {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.t-small {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.t-caption {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-engraved {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--engraved);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one serif moment per page — a reflective sentence, never the interface. */
+.t-serif-moment {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(25px, 2.4vw, 31px);
+  line-height: 1.5;
+  font-weight: 420;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+}
