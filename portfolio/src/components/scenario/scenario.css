@@ -1,0 +1,431 @@
+/* ---- 03 Understanding — One Day, Many Systems ---- */
+
+.day-strip {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-7);
+  flex-wrap: wrap;
+}
+
+.day-strip__moment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 18px;
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+  background: var(--bench-raised);
+  min-width: 168px;
+  transition:
+    border-color var(--t-contact) var(--ease-decisive),
+    background-color var(--t-contact) var(--ease-decisive);
+}
+
+.day-strip__time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-strip__time .notch {
+  width: 5px;
+  height: 5px;
+  background: transparent;
+  transition: background-color var(--t-contact) var(--ease-decisive);
+}
+
+.day-strip__label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.day-strip__moment:hover {
+  border-color: var(--aluminum-strong);
+}
+
+.day-strip__moment[aria-pressed='true'] {
+  border-color: var(--ink);
+}
+
+.day-strip__moment[aria-pressed='true'] .day-strip__label {
+  color: var(--ink);
+}
+
+.day-strip__moment[aria-pressed='true'] .day-strip__time .notch {
+  background: var(--cobalt);
+}
+
+/* ---- Player ---- */
+.player {
+  margin-top: var(--sp-6);
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+  background: var(--bench-raised);
+}
+
+.player__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-6);
+  align-items: start;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--aluminum-line);
+}
+
+.player__intent .t-engraved {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.player__intent-sentence {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.player__outcome {
+  max-width: 340px;
+  text-align: left;
+}
+
+.player__outcome .t-engraved {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.player__outcome p {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.player__body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+}
+
+/* ---- Sequence ---- */
+.sequence {
+  padding: 24px 28px 28px;
+  border-right: 1px solid var(--aluminum-line);
+}
+
+.sequence__participants {
+  display: block;
+  margin-bottom: var(--sp-5);
+}
+
+.handoff {
+  position: relative;
+  padding: 0 0 0 34px;
+}
+
+.handoff::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 26px;
+  bottom: -8px;
+  width: 1px;
+  background: var(--aluminum-line);
+}
+
+.handoff:last-of-type::before {
+  display: none;
+}
+
+.handoff__spine {
+  position: absolute;
+  left: 10px;
+  top: 26px;
+  bottom: -8px;
+  width: 1px;
+  background: var(--cobalt);
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+.handoff.is-done .handoff__spine {
+  transform: scaleY(1);
+  transition: transform var(--t-relationship) linear;
+}
+
+.handoff:last-of-type .handoff__spine {
+  display: none;
+}
+
+.handoff__mark {
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  width: 7px;
+  height: 7px;
+  background: var(--aluminum-line);
+  transition: background-color var(--t-contact) var(--ease-decisive);
+}
+
+.handoff.is-done .handoff__mark {
+  background: var(--cobalt);
+}
+
+.handoff.is-human .handoff__mark {
+  background: var(--aluminum-line);
+}
+
+.handoff.is-human.is-done .handoff__mark {
+  background: var(--amber-ink);
+}
+
+.handoff__row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 6px 0;
+  opacity: 0.42;
+  transition: opacity var(--t-interface) var(--ease-soft);
+}
+
+.handoff.is-done .handoff__row {
+  opacity: 1;
+}
+
+.handoff__actor {
+  flex: none;
+  width: 128px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.handoff.is-done .handoff__actor {
+  color: var(--ink);
+}
+
+.handoff__action {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-align: left;
+}
+
+.handoff.is-done .handoff__action {
+  color: var(--ink);
+}
+
+.handoff__human-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--amber-ink);
+  white-space: nowrap;
+}
+
+.handoff__inspect-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0 10px 142px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  transition: color var(--t-contact) var(--ease-decisive);
+}
+
+.handoff__inspect-toggle:hover {
+  color: var(--ink);
+}
+
+.handoff__inspect {
+  margin: 0 0 14px 142px;
+  padding: 12px 16px;
+  border-left: 2px solid var(--aluminum-line);
+  background: var(--bench);
+  display: grid;
+  gap: 8px;
+}
+
+.handoff__inspect dt {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+  margin-bottom: 2px;
+}
+
+.handoff__inspect dd {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ---- Controls ---- */
+.sequence__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+  padding-left: 34px;
+}
+
+.sequence__advance {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-size: 13.5px;
+  font-weight: 500;
+  background: var(--bench-raised);
+  transition:
+    background-color var(--t-contact) var(--ease-decisive),
+    color var(--t-contact) var(--ease-decisive),
+    opacity var(--t-contact) var(--ease-decisive);
+}
+
+.sequence__advance:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bench-raised);
+}
+
+.sequence__advance:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.sequence__play {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  border-bottom: 1px solid transparent;
+  transition: color var(--t-contact) var(--ease-decisive);
+}
+
+.sequence__play:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.sequence__play:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.sequence__done {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+
+/* ---- The output bench ---- */
+.output-bench {
+  padding: 24px 28px 28px;
+  background: var(--bench);
+  border-radius: 0 0 2px 0;
+}
+
+.output-bench > .t-engraved {
+  display: block;
+  margin-bottom: var(--sp-5);
+}
+
+.output-bench__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.output-card {
+  padding: 14px 16px;
+  max-width: 360px;
+}
+
+.output-card:nth-child(even) {
+  margin-left: var(--sp-5);
+}
+
+.output-card__kind {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.output-card__label {
+  font-size: 14.5px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.output-card__body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.output-card--confirmation {
+  border-color: color-mix(in srgb, var(--amber-ink) 45%, var(--aluminum-line));
+}
+
+.output-bench__empty {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.7;
+  max-width: 30ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Travel becomes a state change: the spine appears without drawing. */
+  .handoff.is-done .handoff__spine {
+    transition: opacity 160ms linear;
+  }
+
+  .handoff__spine {
+    transform: none;
+    opacity: 0;
+  }
+
+  .handoff.is-done .handoff__spine {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ---- Boundary + honesty line ---- */
+.player__boundary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-top: 1px solid var(--aluminum-line);
+}
+
+.player__boundary .t-engraved {
+  color: var(--amber-ink);
+}
+
+.scenario-honesty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: var(--sp-4);
+}

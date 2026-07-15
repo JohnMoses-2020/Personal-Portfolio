@@ -1,0 +1,148 @@
+/* ---- 05 Judgment — The Decision Ledger ---- */
+/* The table narrows; the light becomes directional; reading slows. */
+
+.ledger__well {
+  max-width: 860px;
+  margin-top: var(--sp-8);
+  margin-left: clamp(0px, 6vw, 96px);
+  background: var(--bench-recessed);
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+  padding: clamp(28px, 4vw, 56px);
+}
+
+.ledger-entry {
+  padding: var(--sp-6) 0;
+  border-bottom: 1px solid var(--aluminum-line);
+}
+
+.ledger-entry:first-child {
+  padding-top: 0;
+}
+
+.ledger-entry:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ledger-entry__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.ledger-entry__date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+}
+
+.ledger-entry__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ledger-entry__statement {
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.008em;
+  max-width: 30ch;
+  margin-bottom: 8px;
+}
+
+.ledger-entry__consequence {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 58ch;
+  margin-bottom: var(--sp-4);
+}
+
+.ledger-entry__reveals {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.ledger-entry__reveal-toggle {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 6px 12px;
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+  background: var(--bench-raised);
+  transition:
+    color var(--t-contact) var(--ease-decisive),
+    border-color var(--t-contact) var(--ease-decisive);
+}
+
+.ledger-entry__reveal-toggle:hover {
+  color: var(--ink);
+  border-color: var(--aluminum-strong);
+}
+
+.ledger-entry__reveal-toggle[aria-expanded='true'] {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.ledger-entry__reveal {
+  margin-top: var(--sp-4);
+  padding: 14px 18px;
+  border-left: 2px solid var(--aluminum-strong);
+  background: var(--bench);
+  max-width: 62ch;
+  animation: depth-swap var(--t-interface) var(--ease-soft);
+}
+
+.ledger-entry__reveal .t-engraved {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ledger-entry__reveal p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.ledger-entry__affects {
+  margin-top: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ledger-entry__affects .t-engraved {
+  color: var(--ink-muted);
+}
+
+.ledger-entry__system-chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--aluminum-line);
+  border-radius: 2px;
+  padding: 2px 8px;
+}
+
+.ledger-entry__stamp-row {
+  margin-top: var(--sp-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ledger-entry__reveal {
+    animation: none;
+  }
+}

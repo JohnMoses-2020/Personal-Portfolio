@@ -1,0 +1,167 @@
+/* ---- 07 Invitation — The Far End ---- */
+/* The table ends in open space, not footer density. */
+
+.farend {
+  padding-top: clamp(120px, 18vh, 220px);
+  padding-bottom: 56px;
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.farend__invitation {
+  max-width: 26ch;
+  margin-bottom: var(--sp-7);
+}
+
+.farend__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-4);
+}
+
+.farend__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.farend__references {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-bottom: clamp(72px, 12vh, 140px);
+}
+
+.farend__reference {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--aluminum-line);
+  padding-bottom: 2px;
+  transition:
+    color var(--t-contact) var(--ease-decisive),
+    border-color var(--t-contact) var(--ease-decisive);
+}
+
+a.farend__reference:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.farend__reference--pending {
+  border-bottom-style: dashed;
+  cursor: default;
+}
+
+/* ---- workbench index ---- */
+.workbench-index {
+  max-width: 620px;
+  margin-bottom: clamp(72px, 12vh, 140px);
+}
+
+.workbench-index summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  transition: color var(--t-contact) var(--ease-decisive);
+}
+
+.workbench-index summary::-webkit-details-marker {
+  display: none;
+}
+
+.workbench-index summary:hover {
+  color: var(--ink);
+}
+
+.workbench-index summary .notch {
+  transition: transform var(--t-contact) var(--ease-decisive);
+}
+
+.workbench-index[open] summary .notch {
+  background: var(--cobalt);
+}
+
+.workbench-index__table {
+  margin-top: var(--sp-4);
+  border-top: 1px solid var(--aluminum-line);
+}
+
+.workbench-index__row {
+  display: grid;
+  grid-template-columns: 150px 130px 1fr auto;
+  gap: 16px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--aluminum-line);
+}
+
+.workbench-index__row .name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.workbench-index__row .role,
+.workbench-index__row .state {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.workbench-index__row a {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--aluminum-line);
+  transition: color var(--t-contact) var(--ease-decisive);
+}
+
+.workbench-index__row a:hover {
+  color: var(--ink);
+}
+
+/* ---- the settle ---- */
+.farend__settle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.farend__settle .checksum rect {
+  transition: fill 700ms var(--ease-soft);
+}
+
+.farend__settle.is-settling .checksum rect {
+  fill: var(--cobalt);
+}
+
+.farend__status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

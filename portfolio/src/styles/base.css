@@ -1,0 +1,112 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background-color: var(--bench);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--cobalt);
+  color: var(--bench-raised);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+/* ---- Page frame: one centered working surface ---- */
+.page-frame {
+  position: relative;
+  max-width: calc(var(--frame-max) + 2 * var(--frame-pad));
+  margin-inline: auto;
+  padding-inline: var(--frame-pad);
+}
+
+/* ---- Rooms: every section registers to the same datum ---- */
+.room {
+  position: relative;
+  padding-left: var(--datum-gutter);
+  scroll-margin-top: calc(var(--rail-height) + 24px);
+}
+
+.room-head {
+  max-width: 720px;
+}
+
+.room-head .room-kicker {
+  display: block;
+  margin-bottom: var(--sp-4);
+}
+
+.room-head h2 {
+  margin-bottom: var(--sp-5);
+}
+
+.room-head .room-lede {
+  color: var(--ink-soft);
+  max-width: 58ch;
+}
+
+/* ---- Skip link ---- */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--bench-raised);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}

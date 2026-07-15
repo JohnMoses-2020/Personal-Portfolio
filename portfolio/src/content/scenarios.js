@@ -1,0 +1,213 @@
+/*
+ * Four authored scenarios — one for each intention, four moments of one day.
+ *
+ * These are authored demonstrations of real system behavior, not live runs,
+ * and the page says so. Sequences, decisions, and outputs are drafted for
+ * John to verify against the actual systems (docs/design/07-open-questions.md).
+ */
+
+export const SCENARIOS = [
+  {
+    id: 'start-my-day',
+    time: '06:45',
+    label: 'Start my day',
+    intention: 'Give me a useful start to the day.',
+    outcome: 'One brief worth reading — and nothing rescheduled without John.',
+    participants: ['jarvis', 'morning-briefing', 'calendar', 'reminder'],
+    provisional: true,
+    steps: [
+      {
+        id: 'sd-1',
+        actor: 'jarvis',
+        action: 'Interprets the morning and gathers overnight context.',
+        context: 'Local time, weather shift, one calendar change made overnight.',
+        decision: 'Only what changed since last night is worth the briefing’s lead.',
+        output: { kind: 'Context', label: 'Morning context assembled', body: 'Overnight changes, first obligation, weather delta.' },
+      },
+      {
+        id: 'sd-2',
+        actor: 'morning-briefing',
+        action: 'Composes the brief around what changed, not everything known.',
+        context: 'Assembled context from Jarvis; yesterday’s unread items.',
+        decision: 'Three items maximum. A brief that takes ten minutes is a report.',
+        output: { kind: 'Output', label: 'The morning brief', body: '“Your 9:00 moved to 9:30. Rain after 2pm. One loop due today.”' },
+      },
+      {
+        id: 'sd-3',
+        actor: 'calendar',
+        action: 'Flags the day’s one conflict without touching it.',
+        context: 'The moved 9:00 now presses against a focus block.',
+        decision: 'Surface the tension; leave the resolution to John.',
+        output: { kind: 'Flag', label: 'Conflict noted', body: '9:30 stand-up overlaps the writing block by 15 minutes.' },
+      },
+      {
+        id: 'sd-4',
+        actor: 'reminder',
+        action: 'Surfaces the two loops that are actually due today.',
+        context: 'Open obligations, filtered by due date and staleness.',
+        decision: 'Everything else stays quiet until it matters.',
+        output: { kind: 'Output', label: 'Two loops surfaced', body: 'Renew passport appointment · reply to Sam about Saturday.' },
+      },
+    ],
+    boundary: 'The briefing suggests. It never reschedules.',
+  },
+  {
+    id: 'plan-travel',
+    time: '11:20',
+    label: 'Plan travel',
+    intention: 'Plan the trip to Seattle without losing the week around it.',
+    outcome: 'A held booking window, a protected calendar, and one future task Jarvis will not forget.',
+    participants: ['jarvis', 'calendar', 'flight', 'reminder'],
+    primary: true,
+    provisional: true,
+    steps: [
+      {
+        id: 'pt-1',
+        actor: 'jarvis',
+        action: 'Identifies the intent and the constraints that matter.',
+        context: 'A trip request, the week’s obligations, past travel preferences.',
+        decision: 'Constraints first: the Thursday review is immovable; red-eyes are out.',
+        output: { kind: 'Context', label: 'Trip constraints', body: 'Depart after Thu review · home by Sunday dinner · no red-eyes.' },
+      },
+      {
+        id: 'pt-2',
+        actor: 'calendar',
+        action: 'Contributes timing and the obligations around the trip.',
+        context: 'The week’s meetings, the review, one dinner that could move.',
+        decision: 'Offer the Friday-morning window; hold Sunday evening as a hard edge.',
+        output: { kind: 'Output', label: 'Viable windows', body: 'Fri 08:00–11:00 out · Sun before 17:00 return.' },
+      },
+      {
+        id: 'pt-3',
+        actor: 'flight',
+        action: 'Evaluates options and states its uncertainty plainly.',
+        context: 'Fares for the viable windows; on-time history per route.',
+        decision: 'Two candidates survive. Fare volatility is high — say so.',
+        output: { kind: 'Decision', label: 'Two options, one caveat', body: 'Fri 08:15 or 09:40 out. Fares likely to move within 48h.' },
+      },
+      {
+        id: 'pt-4',
+        actor: 'human',
+        action: 'John chooses the booking window. The system does not decide alone.',
+        context: 'Both options, the caveat, and the week laid out beside them.',
+        decision: 'Booking money is a human decision. That boundary is deliberate.',
+        output: { kind: 'Confirmation', label: 'Window approved', body: 'John holds the 08:15 departure. Booking authorized.' },
+        human: true,
+      },
+      {
+        id: 'pt-5',
+        actor: 'reminder',
+        action: 'Accepts the one task that cannot be finished today.',
+        context: 'Check-in opens Thursday 08:15 — a future obligation.',
+        decision: 'The loop belongs to Reminder now, not to John’s memory.',
+        output: { kind: 'Handoff', label: 'Future task accepted', body: 'Check-in reminder set for Thu 08:15, with the confirmation code.' },
+      },
+    ],
+    boundary: 'Flight prepares the decision. John spends the money.',
+  },
+  {
+    id: 'protect-my-time',
+    time: '15:05',
+    label: 'Protect my time',
+    intention: 'Keep two hours for the design review prep.',
+    outcome: 'A protected block that survived the afternoon, and one commitment moved honestly.',
+    participants: ['jarvis', 'calendar', 'reminder'],
+    provisional: true,
+    steps: [
+      {
+        id: 'ptm-1',
+        actor: 'jarvis',
+        action: 'Recognizes the request as protection, not scheduling.',
+        context: 'The prep deadline, the afternoon’s meetings, John’s focus pattern.',
+        decision: 'Protecting time means something else has to give — name it.',
+        output: { kind: 'Context', label: 'The tradeoff, named', body: 'Two free hours exist only if the 15:30 sync moves.' },
+      },
+      {
+        id: 'ptm-2',
+        actor: 'calendar',
+        action: 'Proposes the block and the one honest conflict.',
+        context: 'Attendee availability for the 15:30; the review is Thursday.',
+        decision: 'Propose 15:00–17:00 and a specific new slot for the sync — not “sometime.”',
+        output: { kind: 'Output', label: 'Proposed block', body: '15:00–17:00 held · sync offered Wed 10:00 to both attendees.' },
+      },
+      {
+        id: 'ptm-3',
+        actor: 'human',
+        action: 'John confirms the placement before anything moves.',
+        context: 'The block, the sync’s new slot, and who it affects.',
+        decision: 'Other people’s time never moves without John saying so.',
+        output: { kind: 'Confirmation', label: 'Placement confirmed', body: 'Block held. Reschedule note sent in John’s words.' },
+        human: true,
+      },
+      {
+        id: 'ptm-4',
+        actor: 'reminder',
+        action: 'Closes the loop the move created.',
+        context: 'The sync now depends on a reply from two people.',
+        decision: 'If no reply by 17:00, the loop resurfaces — quietly.',
+        output: { kind: 'Handoff', label: 'Loop held open', body: 'Watching for two confirmations before end of day.' },
+      },
+    ],
+    boundary: 'Calendar proposes. It never moves another person’s time on its own.',
+  },
+  {
+    id: 'understand-my-health',
+    time: '21:30',
+    label: 'Understand my health',
+    intention: 'Tell me what this week actually did to me.',
+    outcome: 'One pattern worth acting on — computed at home, kept at home.',
+    participants: ['jarvis', 'nutrition', 'health'],
+    provisional: true,
+    steps: [
+      {
+        id: 'uh-1',
+        actor: 'jarvis',
+        action: 'Assembles the day’s signals without sending them anywhere.',
+        context: 'Sleep, training, meals — all resolved on the local machine.',
+        decision: 'Wellbeing context never leaves the house. That is architecture, not policy.',
+        output: { kind: 'Boundary', label: 'Local context only', body: 'Seven days of signals, assembled on-device.' },
+      },
+      {
+        id: 'uh-2',
+        actor: 'nutrition',
+        action: 'Summarizes the week’s pattern without a lecture.',
+        context: 'Meal timing and composition across the week.',
+        decision: 'Report the pattern; skip the judgment. The lecture was removed on purpose.',
+        output: { kind: 'Output', label: 'The week, plainly', body: 'Late dinners on training days — three of four this week.' },
+      },
+      {
+        id: 'uh-3',
+        actor: 'health',
+        action: 'Surfaces one correlation and its confidence, nothing more.',
+        context: 'Nutrition’s summary joined with sleep and recovery data.',
+        decision: 'One finding with a confidence range beats five guesses.',
+        output: { kind: 'Decision', label: 'One pattern, qualified', body: 'Late training-day dinners precede poor sleep — moderate confidence, four weeks of data.' },
+      },
+      {
+        id: 'uh-4',
+        actor: 'human',
+        action: 'John decides what, if anything, changes.',
+        context: 'The pattern, the confidence, and the week ahead.',
+        decision: 'The system finds patterns. It does not run John’s life.',
+        output: { kind: 'Confirmation', label: 'John’s call', body: 'Earlier dinners on Tuesday and Thursday. The system just watches.' },
+        human: true,
+      },
+    ],
+    boundary: 'Patterns, never diagnoses. Data stays local.',
+  },
+];
+
+export const ACTOR_NAMES = {
+  jarvis: 'Jarvis',
+  'morning-briefing': 'Morning Briefing',
+  calendar: 'Calendar',
+  reminder: 'Reminder',
+  flight: 'Flight',
+  nutrition: 'Nutrition',
+  health: 'Health',
+  human: 'John',
+};
+
+export function scenarioById(id) {
+  return SCENARIOS.find((scenario) => scenario.id === id);
+}
