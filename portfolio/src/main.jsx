@@ -9,11 +9,13 @@ import '@fontsource-variable/newsreader/opsz-italic.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/typography.css';
+import './components/common/common.css';
+import './world/world.css';
 
-import App from './app.jsx';
+import WorldApp from './world/WorldApp.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <WorldApp />
   </React.StrictMode>,
 );
