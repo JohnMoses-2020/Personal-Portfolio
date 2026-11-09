@@ -1,0 +1,63 @@
+---
+title: "Designing for Scale: Lessons from Managing a Large Kubernetes Fleet"
+excerpt: What changes when you go from a handful of clusters to a fleet — and the design habits that keep it manageable.
+date: 2026-10-20
+topics: [kubernetes, cloud-infrastructure, reliability]
+image: article-kubernetes-fleet
+status: draft
+featured: true
+---
+
+<Lead>
+  A single Kubernetes cluster is a well-understood system. A fleet of them is a
+  different kind of problem, and most of the difficulty lives in the seams.
+</Lead>
+
+## Why fleets are different
+
+The per-cluster mental model stops working once there are enough clusters that
+no one person can hold their state in their head. Configuration drift,
+version skew, and uneven capacity become the default rather than the exception.
+
+## Treat configuration as a product
+
+<Placeholder>
+  Covers: declarative intent, layered configuration, and keeping cluster-specific
+  overrides small and explicit.
+</Placeholder>
+
+## Roll out like you expect to roll back
+
+Every rollout should assume it might be wrong. A pattern that generalizes
+well is a small canary slice, an automated health gate, and then progressive
+widening.
+
+```yaml title="rollout-stages.yaml"
+stages:
+  - name: canary
+    clusters: 1
+    gate: error-rate < 0.1% for 15m
+  - name: early
+    clusters: 10%
+    gate: error-rate < 0.1% for 30m
+  - name: broad
+    clusters: 100%
+```
+
+## Capacity is a fleet-level signal
+
+<Placeholder>
+  Covers: headroom targets, why per-cluster autoscaling is not a capacity
+  strategy, and validating demand before admitting it.
+</Placeholder>
+
+## Observability has to aggregate
+
+<Placeholder>
+  Covers: fleet dashboards vs. cluster dashboards, and what to alert on at
+  each level.
+</Placeholder>
+
+## Closing thoughts
+
+<Placeholder />

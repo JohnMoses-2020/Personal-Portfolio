@@ -1,0 +1,28 @@
+# Dependencies & build output (rebuilt inside the image)
+node_modules
+.next
+out
+build
+coverage
+
+# Version control & editor
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+# Local environment files — pass NEXT_PUBLIC_* as build args instead
+.env
+.env.*
+!.env.example
+
+# Docker / docs not needed in the image
+Dockerfile
+docker-compose*.yml
+README.md
+AGENTS.md
+
+# Logs
+npm-debug.log*
+*.log

@@ -1,0 +1,43 @@
+{
+  "name": "john-moses-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal engineering portfolio for John Moses — Above the Clouds, Dark Cinematic Edition.",
+  "scripts": {
+    "images": "node scripts/optimize-images.mjs",
+    "predev": "npm run images",
+    "dev": "next dev",
+    "prebuild": "npm run images",
+    "build": "next build",
+    "preview": "node scripts/preview-static.mjs",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "check": "npm run lint && npm run typecheck && npm run build",
+    "deploy": "bash deploy/deploy.sh"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "github-slugger": "^2.0.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^1.70.0",
+    "next": "16.4.5",
+    "next-mdx-remote": "^6.0.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "rehype-pretty-code": "^0.14.6",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^4.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

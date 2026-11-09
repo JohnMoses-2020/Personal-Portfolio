@@ -1,0 +1,57 @@
+---
+title: "Beyond the Basics: Multi-Tenant Workloads on Kubernetes"
+excerpt: Namespaces are where multi-tenancy starts, not where it ends. Isolation, fairness, and noisy neighbours in shared clusters.
+date: 2026-08-17
+topics: [kubernetes, distributed-systems]
+image: article-multi-tenant
+status: draft
+featured: true
+---
+
+<Lead>
+  Sharing a cluster between teams is efficient right up until one tenant's bad
+  day becomes everyone's bad day.
+</Lead>
+
+## What "tenant" means
+
+<Placeholder>
+  Covers: teams vs. workloads vs. customers as tenancy boundaries, and why the
+  answer changes the design.
+</Placeholder>
+
+## Isolation layers
+
+Namespaces, network policies, resource quotas, and scheduling constraints
+each isolate a different thing. None of them isolate everything.
+
+```yaml title="quota.yaml"
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: team-a
+  namespace: team-a
+spec:
+  hard:
+    requests.cpu: "40"
+    requests.memory: 160Gi
+    pods: "200"
+```
+
+## Fairness and noisy neighbours
+
+<Placeholder>
+  Covers: requests vs. limits, priority classes, and the difference between
+  guaranteeing capacity and merely bounding it.
+</Placeholder>
+
+## Operational boundaries
+
+<Placeholder>
+  Covers: who can deploy what, and keeping platform changes from surprising
+  tenants.
+</Placeholder>
+
+## Closing thoughts
+
+<Placeholder />

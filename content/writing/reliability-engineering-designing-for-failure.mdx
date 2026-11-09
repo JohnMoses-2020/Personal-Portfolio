@@ -1,0 +1,50 @@
+---
+title: "Reliability Engineering: Designing for Failure"
+excerpt: Every component will fail eventually. The question is whether the system was designed to expect it.
+date: 2026-06-02
+topics: [reliability, distributed-systems, engineering-process]
+image: article-reliability
+status: draft
+featured: false
+---
+
+<Lead>
+  Reliability is not the absence of failure. It is the presence of design
+  decisions that assume failure and make it boring.
+</Lead>
+
+## Failure is the normal case
+
+<Placeholder>
+  Covers: why "it will fail" is a better starting assumption than "it should
+  not fail".
+</Placeholder>
+
+## Timeouts, retries, and budgets
+
+Retries without limits turn a partial failure into a total one. A retry
+budget caps how much extra load a failing dependency is allowed to generate.
+
+```go title="retry.go"
+// Sketch: allow at most 10% additional load from retries.
+if retryBudget.Allow() {
+    return attempt()
+}
+return ErrBudgetExhausted
+```
+
+## Graceful degradation
+
+<Placeholder>
+  Covers: deciding in advance what to shed, and testing the degraded path.
+</Placeholder>
+
+## Practising failure
+
+<Placeholder>
+  Covers: game days, fault injection, and rehearsed runbooks.
+</Placeholder>
+
+## Closing thoughts
+
+<Placeholder />

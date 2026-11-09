@@ -1,0 +1,59 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# generated responsive image variants (rebuilt by scripts/optimize-images.mjs)
+/public/images/_opt/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug / logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# secrets & keys — never commit
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.git-credentials
+deploy/*.local
+deploy/*.local.*
+
+# env files (the example is committed; real values are not)
+.env*
+!.env.example
+
+# local docker compose (copied from docker-compose.example.yml)
+docker-compose.yml
+docker-compose.override.yml
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

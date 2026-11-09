@@ -1,0 +1,104 @@
+---
+title: Infrastructure Provisioning & Capacity Management
+summary: Improving resource provisioning workflows through automated capacity validation and infrastructure orchestration.
+categories: [Cloud Infrastructure, Automation, APIs]
+image: project-provisioning
+status: in-progress
+date: 2026-11-08
+role: Software Engineer
+timeline: Ongoing
+technologies: [C# / .NET, REST APIs, Cloud infrastructure]
+featured: true
+order: 2
+disclosure: This case study describes work at Microsoft at a level appropriate for public discussion. It intentionally omits internal implementation details, proprietary systems, and non-public metrics.
+---
+
+<Lead>
+  Provisioning is where intent meets reality. The interesting engineering is in
+  making that handoff predictable: validating capacity up front, orchestrating
+  the steps reliably, and giving people a clear answer about what happened.
+</Lead>
+
+## Overview
+
+This project area covers the workflows that turn a request for infrastructure
+into actual, running resources — and the capacity checks that decide whether
+that request should proceed at all.
+
+## Problem statement
+
+Manual or loosely automated provisioning tends to fail in quiet ways:
+requests that succeed on paper but land on exhausted capacity, orchestration
+steps that half-complete, and little visibility into why something stalled.
+
+## Constraints
+
+- Provisioning has to be idempotent — retries must be safe.
+- Capacity validation must be fast enough to sit on the request path.
+- Decisions need an audit trail that humans can read.
+- The workflow must degrade gracefully when a downstream dependency is slow.
+
+## Architecture and approach
+
+<Diagram title="Request lifecycle (conceptual)">
+
+```text
+ request ──▶ validate capacity ──▶ plan steps ──▶ orchestrate ──▶ verify
+                 │                                    │
+                 ▼                                    ▼
+          reject / defer                     retry with backoff
+          (with a reason)                    (idempotent steps)
+```
+
+</Diagram>
+
+The workflow is modelled as a sequence of idempotent steps with explicit
+state, so a failure anywhere can be resumed rather than restarted.
+
+## Technical decisions and tradeoffs
+
+### Validate early, explain always
+
+Rejecting a request before any work starts is cheaper for everyone — provided
+the rejection comes with a reason. Every validation outcome carries a
+human-readable explanation.
+
+### Idempotency over cleverness
+
+Designing each step to be safely repeatable costs a little extra bookkeeping
+and saves a great deal of incident time. A sketch of the pattern in C#:
+
+```csharp title="ProvisioningStep.cs" showLineNumbers
+public interface IProvisioningStep
+{
+    // Returns true when the desired state already exists, so the
+    // orchestrator can skip ahead on retry.
+    Task<bool> IsSatisfiedAsync(ProvisioningContext context, CancellationToken ct);
+
+    Task ApplyAsync(ProvisioningContext context, CancellationToken ct);
+}
+```
+
+## Implementation details
+
+<Placeholder>
+  Orchestration mechanics and the capacity-validation model will be described
+  here at a level appropriate for public disclosure.
+</Placeholder>
+
+## Results and impact
+
+<Placeholder>
+  Outcomes will be documented here once they can be shared publicly.
+</Placeholder>
+
+## Lessons learned
+
+- A rejected request with a clear reason is a better experience than an
+  accepted request that silently never completes.
+- Explicit state machines are easier to reason about during an incident than
+  implicit control flow.
+
+## Related technologies
+
+C# / .NET · REST APIs · Workflow orchestration · Capacity modelling

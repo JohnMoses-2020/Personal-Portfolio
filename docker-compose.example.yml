@@ -1,0 +1,36 @@
+# OPTIONAL: run the static export in a Caddy container behind an existing
+# reverse proxy. The primary deployment path is deploy/deploy.sh (no Docker).
+#
+#   cp docker-compose.example.yml docker-compose.yml
+#   cp .env.example .env            # then edit values
+#   docker compose up -d --build
+#
+# The container serves plain HTTP on :80 internally and is published only on
+# 127.0.0.1:${PORTFOLIO_HOST_PORT}, so it is never directly exposed to the
+# internet; the host's reverse proxy terminates TLS and forwards to it.
+
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://example.com}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-hello@example.com}
+        NEXT_PUBLIC_GITHUB_URL: ${NEXT_PUBLIC_GITHUB_URL:-https://github.com/}
+        NEXT_PUBLIC_LINKEDIN_URL: ${NEXT_PUBLIC_LINKEDIN_URL:-https://www.linkedin.com/}
+        NEXT_PUBLIC_RESUME_PDF_URL: ${NEXT_PUBLIC_RESUME_PDF_URL:-}
+    image: john-moses-portfolio:latest
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${PORTFOLIO_HOST_PORT:-3100}:80"
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

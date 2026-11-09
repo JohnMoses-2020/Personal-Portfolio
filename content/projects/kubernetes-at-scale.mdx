@@ -1,0 +1,139 @@
+---
+title: Kubernetes at Scale
+summary: Engineering infrastructure for high availability, capacity management, and controlled deployments.
+categories: [Kubernetes, Reliability, Scaling]
+image: project-kubernetes
+status: in-progress
+date: 2026-11-08
+role: Software Engineer
+timeline: Ongoing
+technologies: [Kubernetes, C# / .NET, Observability tooling]
+featured: true
+order: 1
+disclosure: This case study describes work at Microsoft at a level appropriate for public discussion. It intentionally omits internal implementation details, proprietary systems, and non-public metrics.
+---
+
+<Lead>
+  Operating Kubernetes for a large product surface is less about any single
+  cluster and more about the systems around the clusters: how capacity is
+  planned, how change is rolled out, and how failures are contained.
+</Lead>
+
+## Overview
+
+This case study collects the recurring themes from working on large-scale
+Kubernetes infrastructure: keeping availability high while the platform grows,
+treating capacity as a first-class engineering problem, and making deployments
+boring through controlled, observable rollouts.
+
+<Callout type="note" title="Scope">
+  The narrative here is intentionally general. Where specifics would require
+  disclosing internal details, the section is marked as a placeholder rather
+  than approximated.
+</Callout>
+
+## Problem statement
+
+As a platform grows, three pressures tend to arrive together:
+
+- **Availability expectations rise** faster than the team's ability to review
+  every change by hand.
+- **Capacity becomes a moving target** — demand shifts across regions and
+  workloads, and headroom that looked generous last quarter is suddenly tight.
+- **Deployment risk compounds**: more clusters, more tenants, and more moving
+  parts mean a bad rollout can affect far more than it used to.
+
+The engineering challenge is to build processes and tooling that let the
+platform scale without scaling the on-call burden at the same rate.
+
+## Constraints
+
+- Changes must be safe to roll out across many clusters without manual
+  babysitting.
+- Capacity decisions need to be explainable: why a request was approved,
+  deferred, or rejected.
+- Observability has to work at fleet level, not just per cluster.
+- Everything must coexist with existing production workloads — no
+  "big-bang" migrations.
+
+## Architecture and approach
+
+At a high level, the approach treats the fleet as a set of layers:
+
+<Diagram title="Fleet-level layering (conceptual)">
+
+```text
+┌──────────────────────────────────────────────────────────┐
+│  Policy & intent        what should run where, and why   │
+├──────────────────────────────────────────────────────────┤
+│  Capacity management    headroom, validation, forecasts  │
+├──────────────────────────────────────────────────────────┤
+│  Rollout orchestration  staged, observable, reversible   │
+├──────────────────────────────────────────────────────────┤
+│  Clusters               the actual Kubernetes control    │
+│                         planes and node pools            │
+└──────────────────────────────────────────────────────────┘
+```
+
+</Diagram>
+
+Each layer owns a narrow responsibility and exposes signals upward, so a
+rollout can be paused by a capacity signal, and a capacity decision can be
+traced back to policy.
+
+## Technical decisions and tradeoffs
+
+### Staged rollouts over fast rollouts
+
+Rolling out to a small slice first costs time, but it converts unknown risk
+into observed behavior. The tradeoff is accepted deliberately: a slower,
+boring rollout is cheaper than a fast incident.
+
+### Disruption budgets as a contract
+
+Pod disruption budgets make availability expectations explicit to the
+scheduler and to humans. A representative (non-proprietary) example:
+
+```yaml title="pdb.yaml" showLineNumbers
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: api-gateway
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: api-gateway
+```
+
+### Capacity validation before scheduling
+
+Checking headroom before accepting new work trades a little latency in the
+provisioning path for far fewer "scheduled but pending" surprises later.
+
+## Implementation details
+
+<Placeholder>
+  Implementation specifics (tooling, rollout mechanics, and validation logic)
+  will be described here at a level appropriate for public disclosure.
+</Placeholder>
+
+## Results and impact
+
+<Placeholder>
+  Outcomes will be documented here once there is something that can be shared
+  publicly. No metrics are claimed in the meantime.
+</Placeholder>
+
+## Lessons learned
+
+- Make the safe path the easy path. If a controlled rollout takes more effort
+  than a manual one, people will route around it.
+- Capacity is a product. Give it an owner, an interface, and a feedback loop.
+- Fleet-level observability pays for itself the first time a problem spans
+  more than one cluster.
+
+## Related technologies
+
+Kubernetes · C# / .NET · Helm-style packaging · Metrics and tracing ·
+Infrastructure-as-code

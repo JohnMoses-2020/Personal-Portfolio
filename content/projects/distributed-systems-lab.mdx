@@ -1,0 +1,81 @@
+---
+title: Distributed Systems Lab
+summary: Experiments exploring reliability, consistency, failure recovery, and scalable service design.
+categories: [Distributed Systems, Architecture]
+image: project-distributed
+status: draft
+date: 2026-11-08
+role: Personal project
+timeline: Exploratory
+technologies: [Go, C# / .NET, Kubernetes]
+featured: true
+order: 3
+---
+
+<Lead>
+  A personal sandbox for building small, deliberately breakable systems to
+  study the behaviours that are hard to observe in production: partitions,
+  retries, backpressure, and recovery.
+</Lead>
+
+## Overview
+
+The lab is a collection of focused experiments rather than a single product.
+Each one isolates a distributed-systems concept, implements it minimally, and
+then breaks it on purpose to see what happens.
+
+<Callout type="tip" title="Status">
+  This is a proposed project. The experiments listed below are planned, not
+  completed, and no repository is published yet.
+</Callout>
+
+## Problem statement
+
+Many distributed-systems concepts are easy to describe and surprisingly hard
+to internalize. Building and breaking small systems is the most reliable way
+to turn textbook knowledge into intuition.
+
+## Constraints
+
+- Each experiment should run locally on a laptop or a small cluster.
+- Failure injection must be deterministic enough to reproduce.
+- Results must be measurable, not anecdotal.
+
+## Architecture and approach
+
+Planned experiments:
+
+1. **Leader election** — compare lease-based and consensus-based approaches
+   under partition.
+2. **Retry storms** — model how naive retries amplify load, then add jitter,
+   budgets, and circuit breakers.
+3. **Backpressure** — observe queue behaviour under sustained overload with
+   and without admission control.
+4. **Replication & consistency** — trace read-your-writes guarantees across
+   replicas with injected lag.
+
+## Technical decisions and tradeoffs
+
+<Placeholder>
+  Decisions will be recorded per experiment as they are built.
+</Placeholder>
+
+## Implementation details
+
+<Placeholder>
+  Code, harnesses, and failure-injection tooling will be documented here.
+</Placeholder>
+
+## Results and impact
+
+<Placeholder>
+  Measurements and write-ups will be added as experiments complete.
+</Placeholder>
+
+## Lessons learned
+
+<Placeholder />
+
+## Related technologies
+
+Go · C# / .NET · Kubernetes · Load generation and tracing tools

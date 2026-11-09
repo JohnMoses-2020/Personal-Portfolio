@@ -1,0 +1,80 @@
+---
+title: Baseball Analytics
+summary: Exploring player performance, ballpark factors, and baseball statistics through software and data analysis.
+categories: [Data, Analytics]
+image: project-baseball
+status: draft
+date: 2026-11-08
+role: Personal project
+timeline: Exploratory
+technologies: [Python, SQL, Data visualization]
+featured: false
+order: 4
+---
+
+<Lead>
+  Baseball is a game of systems and data. This project applies the same
+  engineering habits used on infrastructure — careful modelling, reproducible
+  pipelines, honest measurement — to the statistics of the game.
+</Lead>
+
+## Overview
+
+An exploratory analytics project built around publicly available baseball
+data, looking at how player performance interacts with ballpark environments
+and how the game's statistics evolve over time.
+
+<Callout type="tip" title="Status">
+  Proposed project. No analyses or results are published yet; the sections
+  below outline the intended shape of the work.
+</Callout>
+
+## Problem statement
+
+Raw baseball statistics are abundant, but context is scarce. The same batting
+line means something different in a hitter-friendly park than in a pitcher's
+park, and comparing players across eras requires careful normalization.
+
+## Constraints
+
+- Use only publicly available, appropriately licensed data sources.
+- Pipelines must be reproducible end-to-end from raw data.
+- Visualizations should be readable by fans, not just analysts.
+
+## Architecture and approach
+
+<Diagram title="Pipeline (planned)">
+
+```text
+raw public data ──▶ ingest & clean ──▶ model (park factors, rates)
+                                             │
+                                             ▼
+                                   explore & visualize
+```
+
+</Diagram>
+
+## Technical decisions and tradeoffs
+
+<Placeholder>
+  Modelling choices (e.g. how park factors are estimated and regressed) will
+  be documented as they are made.
+</Placeholder>
+
+## Implementation details
+
+<Placeholder />
+
+## Results and impact
+
+<Placeholder>
+  Findings will be written up here once analyses are complete.
+</Placeholder>
+
+## Lessons learned
+
+<Placeholder />
+
+## Related technologies
+
+Python · SQL · Notebook-based exploration · Data visualization

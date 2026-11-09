@@ -1,0 +1,491 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens — "Above the Clouds: Dark Cinematic Edition"          */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Surfaces */
+  --color-ink: #0b1117; /* primary background */
+  --color-ink-2: #141e27; /* secondary background */
+  --color-card: #1a2631; /* card background */
+  --color-card-2: #1f2d3a; /* card hover / elevated */
+
+  /* Type */
+  --color-ivory: #f1ede7; /* primary text */
+  --color-mist: #b9c1c8; /* secondary text */
+  --color-muted: #8a949d; /* metadata / tertiary text */
+
+  /* Accent */
+  --color-accent: #e8c7a5; /* warm peach / gold */
+  --color-accent-deep: #d9b48e;
+  --color-accent-ink: #1a1410; /* text on accent */
+
+  /* Lines */
+  --color-line: #34414b;
+  --color-line-soft: #243039;
+
+  /* Fonts (CSS variables are injected by next/font in app/layout.tsx) */
+  --font-serif:
+    var(--font-cormorant), "Cormorant Garamond", "Iowan Old Style", Georgia,
+    serif;
+  --font-sans:
+    var(--font-inter), Inter, ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Tracking */
+  --tracking-eyebrow: 0.22em;
+  --tracking-meta: 0.14em;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Shadows */
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.03) inset,
+    0 24px 60px -30px rgb(0 0 0 / 0.6);
+  --shadow-glow: 0 0 0 1px rgb(232 199 165 / 0.25),
+    0 20px 50px -20px rgb(232 199 165 / 0.25);
+
+  /* Layout */
+  --container-site: 80rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink font-sans text-ivory antialiased;
+    font-feature-settings:
+      "cv11", "ss01", "kern";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    color: var(--color-ivory);
+  }
+
+  /* Visible, consistent focus indicators for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-ivory;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    @apply select-none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-site);
+  padding-inline: 1.25rem;
+  @media (min-width: 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Small tracked uppercase label — "CLOUD INFRASTRUCTURE ENGINEER —" */
+@utility eyebrow {
+  @apply font-sans text-[0.6875rem] font-medium uppercase text-mist;
+  letter-spacing: var(--tracking-eyebrow);
+}
+
+/* Tracked uppercase metadata — "OCT 20, 2026 · 12 MIN READ" */
+@utility meta {
+  @apply font-sans text-[0.6875rem] font-medium uppercase text-muted;
+  letter-spacing: var(--tracking-meta);
+}
+
+/* Hairline rule used between columns. */
+@utility hairline {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-line) 20%,
+    var(--color-line) 80%,
+    transparent
+  );
+}
+
+/* Cinematic vignette that blends photography into the dark background. */
+@utility photo-fade-left {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(0 0 0 / 0.35) 22%,
+    rgb(0 0 0 / 0.85) 48%,
+    black 70%
+  );
+}
+
+@utility photo-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
+
+/* ------------------------------------------------------------------ */
+/* Entrance animations (CSS-only, progressively enhanced)              */
+/* ------------------------------------------------------------------ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(6px);
+  }
+}
+
+/* Above-the-fold entrance: runs once on load, no JS required. */
+.animate-rise {
+  animation: rise 900ms var(--ease-out-expo) both;
+}
+.animate-fade {
+  animation: fade 1400ms ease-out both;
+}
+.animate-drift {
+  animation: drift 1.4s ease-in-out infinite alternate;
+}
+
+/*
+ * Scroll reveal: content is only hidden when scripting is available (so the
+ * IntersectionObserver can reveal it). Without JS — or in browsers that don't
+ * support the `scripting` media feature — everything is visible immediately.
+ */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 800ms var(--ease-out-quart),
+      transform 800ms var(--ease-out-quart);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal][data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Page transitions (React <ViewTransition>)                           */
+/* ------------------------------------------------------------------ */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.page) {
+  animation: 180ms ease-in both page-out;
+}
+::view-transition-new(.page) {
+  animation: 420ms var(--ease-out-quart) 60ms both page-in;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Editorial prose (MDX articles & case studies)                       */
+/* ------------------------------------------------------------------ */
+.prose-editorial {
+  @apply text-[1.0625rem] leading-[1.75] text-mist;
+}
+
+.prose-editorial > * + * {
+  margin-top: 1.5em;
+}
+
+.prose-editorial h2,
+.prose-editorial h3,
+.prose-editorial h4 {
+  scroll-margin-top: 6rem;
+  color: var(--color-ivory);
+}
+
+.prose-editorial h2 {
+  @apply font-serif text-[2rem] leading-[1.15] font-medium;
+  margin-top: 2.75em;
+  margin-bottom: 0.65em;
+}
+.prose-editorial h2:first-child {
+  margin-top: 0;
+}
+
+.prose-editorial h3 {
+  @apply font-serif text-[1.5rem] leading-[1.25] font-medium;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.prose-editorial h4 {
+  @apply font-sans text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-ivory;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+
+.prose-editorial strong {
+  color: var(--color-ivory);
+  font-weight: 600;
+}
+
+.prose-editorial em {
+  font-style: italic;
+}
+
+.prose-editorial a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 200ms ease;
+}
+.prose-editorial a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.prose-editorial ul,
+.prose-editorial ol {
+  padding-left: 1.35em;
+}
+.prose-editorial ul {
+  list-style: none;
+}
+.prose-editorial ul > li {
+  position: relative;
+}
+.prose-editorial ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.3em;
+  top: 0.78em;
+  width: 0.45em;
+  height: 1px;
+  background: var(--color-accent);
+}
+.prose-editorial ol {
+  list-style: decimal;
+}
+.prose-editorial ol > li::marker {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+.prose-editorial li + li {
+  margin-top: 0.5em;
+}
+
+.prose-editorial blockquote {
+  @apply font-serif text-[1.375rem] leading-[1.45] text-ivory;
+  border-left: 1px solid var(--color-accent);
+  padding-left: 1.5rem;
+  margin-block: 2.25em;
+  font-style: italic;
+}
+
+.prose-editorial hr {
+  border: 0;
+  height: 1px;
+  background: var(--color-line);
+  margin-block: 3em;
+}
+
+.prose-editorial figure {
+  margin-block: 2.25em;
+}
+.prose-editorial figcaption {
+  @apply meta mt-3 text-center normal-case tracking-normal;
+}
+
+.prose-editorial img {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-line);
+}
+
+.prose-editorial table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.prose-editorial th {
+  @apply meta text-left;
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.prose-editorial td {
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  border-bottom: 1px solid var(--color-line-soft);
+  vertical-align: top;
+}
+
+/* Inline code */
+.prose-editorial :not(pre) > code {
+  @apply font-mono text-[0.875em] text-ivory;
+  background: var(--color-card);
+  border: 1px solid var(--color-line-soft);
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.4rem;
+}
+
+/* Code blocks (rehype-pretty-code) */
+.prose-editorial figure[data-rehype-pretty-code-figure] {
+  margin-block: 2em;
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: var(--color-ink-2);
+}
+
+.prose-editorial [data-rehype-pretty-code-title] {
+  @apply meta;
+  margin: 0;
+  padding: 0.625rem 1.25rem;
+  border-bottom: 1px solid var(--color-line-soft);
+  background: var(--color-card);
+  text-align: left;
+}
+
+/* Code fences nested inside a <Diagram> frame drop their own chrome. */
+.prose-editorial .diagram-frame figure[data-rehype-pretty-code-figure] {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.prose-editorial pre {
+  @apply font-mono text-[0.8125rem] leading-[1.7];
+  margin: 0;
+  padding: 1.25rem 0;
+  overflow-x: auto;
+  background: transparent !important;
+}
+
+.prose-editorial pre > code {
+  display: grid;
+  background: transparent;
+  counter-reset: line;
+}
+
+.prose-editorial pre [data-line] {
+  padding-inline: 1.25rem;
+  border-left: 2px solid transparent;
+}
+
+.prose-editorial pre code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.5rem;
+  margin-right: 1.5rem;
+  text-align: right;
+  color: var(--color-muted);
+}
+
+.prose-editorial pre [data-highlighted-line] {
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border-left-color: var(--color-accent);
+}
+
+.prose-editorial pre [data-highlighted-chars] {
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.2rem;
+}
+
+/* Lead paragraph */
+.prose-editorial .lead {
+  @apply font-serif text-[1.5rem] leading-[1.45] text-ivory;
+}
